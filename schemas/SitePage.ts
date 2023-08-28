@@ -31,6 +31,13 @@ const SitePage = defineType({
       description: 'The path to the page on the site',
     }),
     defineField({
+      name: 'last_updated',
+      type: 'date' as const,
+      title: 'Last Validated',
+      description: 'When this page was last revalidated.',
+      readOnly: true,
+    }),
+    defineField({
       name: 'pageBuilder',
       type: 'array' as const,
       title: 'Page Builder',

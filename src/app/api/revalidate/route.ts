@@ -9,10 +9,16 @@
  * when it is updated or created by us in the Sanity desk.
  *
  * HOWEVER—Sanity isn't quick enough to update the asset, so Next.js gets the
- * _old version_ of the document when it re-requests it. To fix this, we need
- * to insert a delay somewhere (where???) before this function is called. I
- * think this needs to be on the client side, without using webhooks. Otherwise,
- * it would require some additional backend resources somehow.
+ * _old version_ of the document when it re-requests it. To fix this, we don't
+ * trigger the route handler whenevr the document changes, but rather whenever
+ * the last_revalidated field changes. By patching this field a second after we
+ * publish the rest of the site page, we can get the updated site page info
+ * which has propagated through to Sanity's servers.
+ *
+ * You should have a corresponding webhook set up in Sanity with at least:
+ *  - Filter: _type == "site_page" && delta::changedAny(last_revalidated)
+ *  - Projection: {_type, _id, slug }
+ * Also make sure to set up your secrets across Vercel + Sanity.
  */
 
 import { SANITY_WEBHOOK_SECRET } from '@/env';
@@ -21,13 +27,11 @@ import { isValidSignature, SIGNATURE_HEADER_NAME } from '@sanity/webhook';
 import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
-// to add other revalidation entities, add their types here.
+// to add other revalidation entities, add their types in the signature here.
 function checkIsRevalidationEntity(body: any): body is SitePage {
   return !!body._type;
 }
 
-/**
- */
 export async function POST(req: NextRequest) {
   const body = await req.json();
 

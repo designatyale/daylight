@@ -18,7 +18,3 @@ export const SANITY_API_VERSION = process.env.NEXT_PUBLIC_SANITY_API_VERSION!;
 // Sanity-specific variables [private]
 export const SANITY_WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET!;
 export const SANITY_API_READ_TOKEN = process.env.SANITY_API_READ_TOKEN;
-
-// An exposed secret for at least SOME level of validation on the manual revalidation hook
-export const UNSAFE_REVALIDATION_SECRET =
-  process.env.NEXT_PUBLIC_UNSAFE_REVALIDATION_SECRET!;
