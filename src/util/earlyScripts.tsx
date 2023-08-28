@@ -18,7 +18,6 @@ const COLOR_SCHEME_INLINE = javascript`
 if (typeof window !== "undefined") { 
   const colorScheme = localStorage.getItem("daylight-color-scheme") || "auto";
   document.documentElement.classList.add(\`\${colorScheme}-mode\`);
-  document.documentElement.style.setProperty("color-scheme", colorScheme);
 }
 `;
 

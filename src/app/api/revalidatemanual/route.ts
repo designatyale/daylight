@@ -11,12 +11,13 @@
  * Used in the document action for manually revalidating tags.
  */
 
+import { NODE_ENV } from '@/env';
 import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   // fail on requests outside of the dev environment.
-  if (process.env.NODE_ENV !== 'development') {
+  if (NODE_ENV !== 'development') {
     return NextResponse.json({
       success: false,
       message: 'Manual route handler revalidation is only available locally.',

@@ -20,7 +20,7 @@ const devOnlyPlugins: any[] = [];
 
 export default defineConfig({
   name: 'default',
-  title: 'A Daylight App',
+  title: 'UNNAMED_DAY_WEBSITE',
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
   basePath: '/studio',

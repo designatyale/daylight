@@ -10,6 +10,7 @@
  * the Next.js page generator in a GROQ query.
  */
 
+import { NODE_ENV } from '@/env';
 import { ToastContextValue } from '@sanity/ui';
 import { SanityClient } from 'sanity';
 
@@ -28,7 +29,7 @@ export async function revalidateItem({
 }: RevalidateItemProps) {
   try {
     // in development, use the unsafe route handler
-    if (process.env.NODE_ENV === 'development') {
+    if (NODE_ENV === 'development') {
       await fetch(`/api/revalidatemanual`, {
         method: 'POST',
         body: JSON.stringify({ tags }),

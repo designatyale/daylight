@@ -8,8 +8,14 @@
  * (for using Sanity with Next.js) have been defined already for you.
  */
 
-// Should be the domain you want to host your site at, for generating sitemaps
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL!;
+export const NODE_ENV = process.env.NODE_ENV!;
+
+// Should be the domain you want to host your site at, for generating metadata
+// as well as sitemaps.
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.VERCEL_URL ||
+  'http://localhost:3000';
 
 // Sanity-specific variables [public]
 export const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!;
