@@ -42,7 +42,6 @@ secret=$(uuidgen)
 # 3. We'll now fill out the files
 sed -i .bak "s/UNNAMED_DAYLIGHT_APP/${projectname}/g" ./sanity.config.ts
 rm ./sanity.config.ts.bak
-rm ./sanity.config.ts.bak
 cat <<EOF >./.env.local
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_SANITY_PROJECT_ID=${projectid}
