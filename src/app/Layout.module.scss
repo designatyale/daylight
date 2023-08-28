@@ -10,7 +10,18 @@
   grid-template:
     'nav' auto
     'main' auto
-    'recirc' auto
     'footer' auto / auto;
   width: 100%;
+
+  & nav {
+    grid-area: nav;
+  }
+
+  & main {
+    grid-area: main;
+  }
+
+  & footer {
+    grid-area: footer;
+  }
 }

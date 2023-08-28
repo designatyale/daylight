@@ -77,6 +77,21 @@ const SitePage = defineType({
       group: 'seo',
       description: 'SEO keywords.',
     }),
+
+    /* ------------------------------ Revalidation ------------------------------ */
+
+    defineField({
+      name: 'last_revalidated',
+      type: 'datetime' as const,
+      title: 'Last Revalidated',
+      description:
+        'When this page was last revalidated. Re-publish or manually revalidate to change.',
+      readOnly: true,
+      options: {
+        dateFormat: 'dddd, MMMM Do YYYY,',
+        timeFormat: 'h:mm A',
+      },
+    }),
   ],
   preview: {
     select: {

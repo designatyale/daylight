@@ -6,9 +6,9 @@
  *
  * Typography resets and font scaling, as defined by your settings.
  */
-@use "sass:math";
-@import "@/styles/settings/type";
-@import "@/styles/settings/responsive";
+@use 'sass:math';
+@import '@/styles/settings/type';
+@import '@/styles/settings/responsive';
 
 // Converts a px value to rem at compile time.
 @function pxToRem($pixel-value) {
@@ -43,7 +43,7 @@ h6 {
 // apply the font scaling throughout the site
 body {
   @each $breakpoint, $fontSize in $body-type-sizes {
-    @if $breakpoint == "default" {
+    @if $breakpoint == 'default' {
       font-size: pxToRem($fontSize);
     } @else {
       @include media($breakpoint) {

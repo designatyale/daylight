@@ -9,7 +9,7 @@
 
 import classNames from 'classnames';
 import { PortableTextComponents } from '@portabletext/react';
-import s from './PText.module.scss';
+import s from './PortableText.module.scss';
 import Link from 'next/link';
 
 const components: PortableTextComponents = {

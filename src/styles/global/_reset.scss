@@ -98,12 +98,12 @@ time,
 mark,
 audio,
 video {
-  vertical-align: baseline;
   margin: 0;
-  border: 0;
   padding: 0;
+  border: 0;
   font-size: 100%;
   font: inherit;
+  vertical-align: baseline;
 }
 
 article,
@@ -131,22 +131,22 @@ li {
 
 a,
 button {
+  color: inherit;
   -webkit-transition: 0;
   -o-transition: 0;
   transition: 0;
-  color: inherit;
 }
 
 button {
   -webkit-font-smoothing: inherit;
   appearance: none;
-  cursor: pointer;
-  border: none;
-  background: none;
   padding: 0;
   overflow: visible;
+  border: none;
+  background: none;
   font: inherit;
   letter-spacing: inherit;
+  cursor: pointer;
 }
 
 a {
@@ -155,8 +155,8 @@ a {
 }
 
 ::-moz-focus-inner {
-  border: 0;
   padding: 0;
+  border: 0;
 }
 
 // :focus {
@@ -174,16 +174,16 @@ select,
 button,
 textarea {
   display: inline-block;
-  vertical-align: middle;
   margin: 0;
+  padding: 0;
   border: 0;
   background: none;
-  padding: 0;
 
   /* Browsers have different default form fonts */
   font-size: inherit;
   line-height: 1;
   font-family: Arial;
+  vertical-align: middle;
   white-space: normal;
 }
 
@@ -206,11 +206,11 @@ textarea {
 
 /* These elements are usually rendered a certain way by the browser */
 button,
-input[type="reset"],
-input[type="button"],
-input[type="submit"],
-input[type="checkbox"],
-input[type="radio"],
+input[type='reset'],
+input[type='button'],
+input[type='submit'],
+input[type='checkbox'],
+input[type='radio'],
 select {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -219,8 +219,8 @@ select {
 
 ::-webkit-scrollbar {
   display: none;
-  background: transparent;
   width: 0;
+  background: transparent;
 }
 
 /* table reset */
@@ -235,14 +235,14 @@ td {
   -webkit-border-horizontal-spacing: 0;
   -webkit-border-vertical-spacing: 0;
   display: block;
+  width: auto;
+  height: auto;
   margin: 0;
+  padding: 0;
   border: none;
   border-color: inherit;
   border-collapse: inherit;
   border-spacing: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
   font-weight: inherit;
   text-align: left;
 }
@@ -252,7 +252,7 @@ td {
   display: inline;
 }
 
-input[type="search"] {
+input[type='search'] {
   -webkit-appearance: none;
   appearance: none;
 }

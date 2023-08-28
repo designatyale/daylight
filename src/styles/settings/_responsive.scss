@@ -27,14 +27,14 @@
  */
 
 $breakpoints: (
-  "xxs": 360px,
-  "xs": 450px,
-  "sm": 640px,
-  "md": 768px,
-  "lg": 1024px,
-  "xl": 1440px,
-  "xxl": 1920px,
-  "xxxl": 2440px,
+  'xxs': 360px,
+  'xs': 450px,
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1440px,
+  'xxl': 1920px,
+  'xxxl': 2440px,
 );
 
 // Returns a media-query closure.
@@ -43,8 +43,8 @@ $media-queries: ();
   $media-queries: map-merge(
     $media-queries,
     (
-      "#{$name}": "min-width: #{$size}",
-      "#{$name}-up": "min-width: #{$size}",
+      '#{$name}': 'min-width: #{$size}',
+      '#{$name}-up': 'min-width: #{$size}',
     )
   );
 
@@ -58,7 +58,7 @@ $media-queries: ();
     $media-queries: map-merge(
       $media-queries,
       (
-        "#{$name}-down": "max-width: #{$next-breakpoint-size - 1px}",
+        '#{$name}-down': 'max-width: #{$next-breakpoint-size - 1px}',
       )
     );
   }
@@ -66,7 +66,7 @@ $media-queries: ();
 
 // Returns a media query for the given breakpoint
 @function query($query-name) {
-  @return "#{map-get($media-queries, $query-name)}";
+  @return '#{map-get($media-queries, $query-name)}';
 }
 
 // Wraps styling with the given media query for the breakpoint.
