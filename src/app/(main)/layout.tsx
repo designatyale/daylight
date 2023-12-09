@@ -8,6 +8,8 @@
  */
 
 import SkipLink from '@/components/SkipLink';
+import VisualEditing from '@/sanity/loader/VisualEditing';
+import { draftMode } from 'next/headers';
 import { PropsWithChildren } from 'react';
 
 export default function Layout({ children }: PropsWithChildren) {
@@ -17,6 +19,7 @@ export default function Layout({ children }: PropsWithChildren) {
       {/* <NavBar >...</NavBar> */}
       <main>{children}</main>
       {/* <Footer /> */}
+      {draftMode().isEnabled && <VisualEditing />}
     </>
   );
 }

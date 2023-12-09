@@ -6,7 +6,7 @@
  */
 
 import { defineArrayMember, defineField, defineType } from 'sanity';
-import pageElements from './page';
+import PageElements from './objects/PageElements';
 
 const SitePage = defineType({
   name: 'site_page',
@@ -37,7 +37,7 @@ const SitePage = defineType({
       description: 'Assemble your page using configurable modules.',
       validation: (Rule) => Rule.required(),
       // map all of our page elements to pageBuilder sub-types
-      of: pageElements.map(({ title, name }) =>
+      of: PageElements.map(({ title, name }) =>
         defineArrayMember({
           title,
           type: name,

@@ -10,40 +10,58 @@ import { media } from 'sanity-plugin-media';
 import { visionTool } from '@sanity/vision';
 import { deskTool } from 'sanity/desk';
 import schemaTypes from './schemas';
-import { SANITY_PROJECT_ID, SANITY_DATASET } from '@/env';
-import defaultDocumentNode from '@/sanity/desk/defaultDocumentNode';
-import structure from '@/sanity/desk/structure';
-import augmentPublishAction from '@/sanity/desk/actions/augmentPublish';
-import UpdatePageAction from '@/sanity/desk/actions/revalidatePage';
-
-const devOnlyPlugins: any[] = [];
+import { SANITY_PROJECT_ID, SANITY_DATASET, SANITY_PROJECT_TITLE } from '@/env';
+import { pageStructure, singletonPlugin } from '@/sanity/plugins/settings';
+import { defaultDocumentNode } from '@/sanity/plugins/studio';
+import SiteHome from './schemas/singletons/SiteHome';
+import SiteSettings from './schemas/singletons/SiteSettings';
+import { presentationTool } from 'sanity/presentation';
+import { locate } from '@/sanity/plugins/locate';
+import UpdatePageAction from '@/sanity/plugins/actions';
 
 export default defineConfig({
-  name: 'default',
-  title: 'UNNAMED_DAYLIGHT_APP',
+  title: SANITY_PROJECT_TITLE,
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
   basePath: '/studio',
-  plugins: [
-    deskTool({
-      structure,
-      defaultDocumentNode,
-    }),
-    media(),
-    visionTool(),
-    ...(isDev ? devOnlyPlugins : []),
-  ],
-  document: {
-    actions: (prev, context) => [
-      ...prev.map((originalAction) =>
-        originalAction.action === 'publish'
-          ? augmentPublishAction(originalAction, context)
-          : originalAction
-      ),
-      UpdatePageAction(context),
-    ],
-  },
   schema: {
     types: schemaTypes,
+  },
+  plugins: [
+    deskTool({
+      structure: pageStructure([SiteHome, SiteSettings]),
+      defaultDocumentNode,
+    }),
+    // Configures live preview pane
+    presentationTool({
+      locate,
+      previewUrl: {
+        origin:
+          typeof location === 'undefined'
+            ? 'http://localhost:3000'
+            : location.origin,
+        draftMode: {
+          enable: '/api/draft',
+        },
+      },
+    }),
+    // Configures the global "new document" button, and document actions, to suit the Settings document singleton
+    singletonPlugin([SiteHome.name, SiteSettings.name]),
+    // Allows a centralized view of all uploaded media, with alt text, etc.
+    media(),
+    // Vision lets you query your content with GROQ in the studio
+    visionTool(),
+  ],
+  // TODO: Add back in manual revalidation
+  document: {
+    actions: (prev, context) => [
+      // ...prev.map((originalAction) =>
+      //   originalAction.action === 'publish'
+      //     ? augmentPublishAction(originalAction, context)
+      //     : originalAction
+      // ),
+      ...prev,
+      UpdatePageAction(context),
+    ],
   },
 });

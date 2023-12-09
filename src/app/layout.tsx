@@ -5,7 +5,7 @@
  * 2023 Design at Yale
  */
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { ColorSchemeScript } from '@/util/earlyScripts';
 import { SITE_URL } from '@/env';
 import s from './Layout.module.scss';
@@ -15,8 +15,11 @@ import './globals.scss';
 export const metadata: Metadata = {
   title: 'A DAY App',
   description: 'Welcome to my new DAY app!',
-  themeColor: '#ffffff',
   metadataBase: new URL(SITE_URL),
+};
+
+export const viewport: Viewport = {
+  themeColor: '#ffffff',
 };
 
 /**
@@ -28,7 +31,7 @@ export const metadata: Metadata = {
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           rel="apple-touch-icon"

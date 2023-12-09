@@ -10,8 +10,17 @@
 
 import { SchemaTypeDefinition } from '@sanity/types';
 import SitePage from './SitePage';
-import pageElements from './page';
+import PageElements from './objects/PageElements';
+import BlockElements from './objects/BlockElements';
+import Socials from './objects/Socials';
+import Singletons from './singletons';
 
-const schemas: SchemaTypeDefinition[] = [SitePage, ...pageElements];
+const schemas: SchemaTypeDefinition[] = [
+  SitePage,
+  ...Socials,
+  ...Singletons,
+  ...PageElements,
+  ...BlockElements,
+];
 
 export default schemas;

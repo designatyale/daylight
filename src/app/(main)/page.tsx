@@ -5,42 +5,23 @@
  * 2023 Design at Yale
  */
 
-import PageBuilder from '@/components/PageBuilder';
-import PreviewPageBuilder from '@/components/PageBuilder/preview';
-import PreviewProvider from '@/components/PreviewProvider';
-import getClient from '@/sanity/client';
-import { pageQuery } from '@/sanity/groq';
-import { SitePage } from '@/sanity/schema';
-import getPreview from '@/util/getPreview';
+import HomePageContent from '@/app/(main)/_page/content';
+import { loadHomePage } from '@/sanity/loader/loadQuery';
+import dynamic from 'next/dynamic';
+import { draftMode } from 'next/headers';
+
+const HomePagePreview = dynamic(() => import('@/app/(main)/_page/preview'));
 
 /* -------------------------------------------------------------------------- */
 /*                                    Page                                    */
 /* -------------------------------------------------------------------------- */
+// The home page is still a PageBuilder, but adds some recirc links on the top.
 
-export default async function Page() {
-  const preview = getPreview();
-  const params = { pageSlug: `/` };
-  const page: SitePage | null = await getClient(preview).fetch(
-    pageQuery,
-    params,
-    { next: { tags: [`page:${params.pageSlug}`] } }
-  );
-
-  return (
-    <article>
-      {preview && preview.token ? (
-        <PreviewProvider token={preview.token}>
-          <PreviewPageBuilder
-            initialValue={page ?? { pageBuilder: undefined }}
-            query={pageQuery}
-            params={params}
-          />
-        </PreviewProvider>
-      ) : (
-        <PageBuilder content={page?.pageBuilder} />
-      )}
-    </article>
-  );
+export default async function HomePageRoute() {
+  const initial = await loadHomePage();
+  if (draftMode().isEnabled) return <HomePagePreview initial={initial} />;
+  if (!initial.data) return <div>Home page missing.</div>;
+  return <HomePageContent data={initial.data} />;
 }
 
 export const revalidate = false;

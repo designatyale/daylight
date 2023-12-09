@@ -1,7 +1,7 @@
 /*
  * Studio.tsx
- * Author: evan kirkiles
- * Created On Sun Aug 27 2023
+ * author: evan kirkiles
+ * created on Wed Jun 14 2023
  * 2023 Design at Yale
  */
 'use client';

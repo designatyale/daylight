@@ -5,29 +5,18 @@
  * 2023 Design at Yale
  */
 
-import PageBuilder from '@/components/PageBuilder';
-import PreviewPageBuilder from '@/components/PageBuilder/preview';
-import PreviewProvider from '@/components/PreviewProvider';
 import getClient from '@/sanity/client';
-import { pageQuery, pagesQuery } from '@/sanity/groq';
+import { pageQuery } from '@/sanity/groq';
 import { PeCopy, SanityKeyed, SitePage } from '@/sanity/schema';
-import getPreview from '@/util/getPreview';
 import { toPlainText } from '@portabletext/react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import METADATA from '@/app/metadata';
-
-/* ---------------------------- Param generation ---------------------------- */
-
-// builds the list of sub-pages to statically generate
-export async function generateStaticParams() {
-  const pages: SitePage[] = await getClient().fetch(pagesQuery, undefined, {
-    next: { revalidate: 0 },
-  });
-  return pages.map(({ slug }) => ({
-    pageSlug: slug.current.replace('/', '').split('/'),
-  }));
-}
+import { generateStaticSlugs } from '@/sanity/loader/generateStaticSlug';
+import { loadPage } from '@/sanity/loader/loadQuery';
+import { draftMode } from 'next/headers';
+import NormalPagePreview from '@/app/(main)/[...pageSlug]/_page/preview';
+import NormalPageContent from '@/app/(main)/[...pageSlug]/_page/content';
 
 /* -------------------------------------------------------------------------- */
 /*                                    Page                                    */
@@ -38,38 +27,24 @@ interface PageProps {
   params: { pageSlug: string[] };
 }
 
-export default async function SubPage({ params: { pageSlug } }: PageProps) {
-  const preview = getPreview();
-  const params = { pageSlug: `/${pageSlug.join('/')}` };
-  const page: SitePage | null = await getClient(preview).fetch(
-    pageQuery,
-    params,
-    { next: { tags: [`page:${params.pageSlug}`] } }
-  );
-  if (!page) notFound();
-
-  return (
-    <article>
-      {preview && preview.token ? (
-        <PreviewProvider token={preview.token}>
-          <PreviewPageBuilder
-            initialValue={page}
-            query={pageQuery}
-            params={params}
-          />
-        </PreviewProvider>
-      ) : (
-        <PageBuilder content={page.pageBuilder} />
-      )}
-    </article>
-  );
+export default async function NormalPage({ params: { pageSlug } }: PageProps) {
+  const initial = await loadPage(pageSlug.join('/'));
+  if (draftMode().isEnabled)
+    return <NormalPagePreview initial={initial} slug={pageSlug.join('/')} />;
+  if (!initial.data) return notFound();
+  return <NormalPageContent data={initial.data} />;
 }
 
 /* -------------------------------------------------------------------------- */
 /*                                  Metadata                                  */
 /* -------------------------------------------------------------------------- */
 
-export const revalidate = false;
+/* ---------------------------- Param generation ---------------------------- */
+
+// builds the list of pages to statically generate
+export async function generateStaticParams() {
+  return generateStaticSlugs('site_page');
+}
 
 // generate the metadata for the page.
 export async function generateMetadata({ params: { pageSlug } }: PageProps) {
